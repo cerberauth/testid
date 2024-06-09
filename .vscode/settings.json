@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "file:///home/manu/.config/Code/User/globalStorage/amazonwebservices.aws-toolkit-vscode/sam.schema.json": [
+            "terraform/roots/9_monitoring/events/template.yaml"
+        ],
+        "https://json.schemastore.org/yamllint.json": "file:///var/data/workspace/cerberauth/testid/.docker/oathkeeper/access-rules.yml"
+    }
+}

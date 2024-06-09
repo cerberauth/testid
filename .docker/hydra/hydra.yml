@@ -1,0 +1,49 @@
+serve:
+  cookies:
+    same_site_mode: Lax
+
+urls:
+  self:
+    issuer: https://testid.cerberauth.com
+    admin: http://localhost:4445/
+  consent: https://testid.cerberauth.com/consent
+  login: https://testid.cerberauth.com/login
+  # registration: https://testid.cerberauth.com/login
+  logout: https://testid.cerberauth.com/logout
+
+secrets:
+  system:
+    - youReallyNeedToChangeThis
+
+oauth2:
+  allowed_top_level_claims:
+    - preferred_username
+    - given_name
+    - family_name
+    - name
+    - email
+  mirror_top_level_claims: false
+
+  grant:
+    jwt:
+      iat_optional: true
+
+  pkce:
+    enforced_for_public_clients: false
+    enforced: false
+
+oidc:
+  dynamic_client_registration:
+    default_scope:
+      - openid
+      - offline
+      - offline_access
+    enabled: true
+
+  subject_identifiers:
+    supported_types:
+      - public
+
+strategies:
+  access_token: jwt
+  scope: exact

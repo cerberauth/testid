@@ -1,0 +1,26 @@
+services:
+  hydra:
+    command: serve public -c /etc/config/hydra/hydra.yml --sqa-opt-out --dev
+    env_file:
+      - .env.local
+      - .env
+
+  hydra-migrate:
+    env_file:
+      - .env.local
+      - .env
+
+  hydra-admin:
+    command: serve admin -c /etc/config/hydra/hydra.yml --sqa-opt-out --dev
+    ports:
+      - 4445:4445
+    env_file:
+      - .env.local
+      - .env
+
+  oathkeeper:
+    env_file:
+      - .env.local
+      - .env
+    ports:
+      - 80:4455

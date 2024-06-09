@@ -1,0 +1,66 @@
+- id: "ory:hydra:public"
+  upstream:
+    preserve_host: true
+    url: "http://hydra:4444"
+  match:
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{oauth2/{auth,token,revoke,sessions/**},userinfo,error,health/{alive,ready},.well-known/**}>"
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+  authenticators:
+    - handler: noop
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: "hydra-login-consent:public"
+  upstream:
+    preserve_host: true
+    url: "http://hydra-login-consent:8080"
+  match:
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{login,consent,logout}>"
+    methods:
+      - GET
+      - POST
+  authenticators:
+    - handler: noop
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: "ory:hydra:dynamic_client"
+  upstream:
+    preserve_host: true
+    url: "http://hydra:4444"
+  match:
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/oauth2/register/<{.id}>"
+    methods:
+      - GET
+      - PUT
+      - DELETE
+  authenticators:
+    - handler: noop
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: "ory:hydra:dynamic_client:create"
+  upstream:
+    preserve_host: true
+    url: "http://hydra:4444"
+  match:
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/oauth2/register"
+    methods:
+      - POST
+  authenticators:
+    - handler: noop
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
