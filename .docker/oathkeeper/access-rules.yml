@@ -3,7 +3,7 @@
     preserve_host: true
     url: "http://hydra:4444"
   match:
-    url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{oauth2/{auth,token,revoke,sessions/**},userinfo,error,health/{alive,ready},.well-known/**}>"
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{oauth2/{auth,token,revoke,sessions/**},userinfo,error,fallbacks/error,health/{alive,ready},.well-known/**}>"
     methods:
       - GET
       - POST
