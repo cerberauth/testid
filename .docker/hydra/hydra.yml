@@ -36,6 +36,8 @@ oidc:
   dynamic_client_registration:
     default_scope:
       - openid
+      - profile
+      - email
       - offline
       - offline_access
     enabled: true
