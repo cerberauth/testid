@@ -32,10 +32,20 @@ access_rules:
     - file:///etc/config/oathkeeper/access-rules.yml
 
 authenticators:
-  anonymous:
+  oauth2_introspection:
     enabled: true
+
     config:
-      subject: guest
+      introspection_url: https://oauth.cerberauth.com/oauth2/introspection
+      scope_strategy: exact
+      trusted_issuers:
+        - https://oauth.cerberauth.com/
+      retry:
+        max_delay: 300ms
+        give_up_after: 2s
+      cache:
+        enabled: true
+        ttl: 60s
   noop:
     enabled: true
 

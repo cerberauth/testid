@@ -44,7 +44,12 @@
       - PUT
       - DELETE
   authenticators:
-    - handler: noop
+    - handler: oauth2_introspection
+      config:
+        required_scope:
+          - dynamic-client:write
+        # target_audience:
+        #   - example_audience
   authorizer:
     handler: allow
   mutators:
@@ -59,7 +64,12 @@
     methods:
       - POST
   authenticators:
-    - handler: noop
+    - handler: oauth2_introspection
+      config:
+        required_scope:
+          - dynamic-client:write
+        # target_audience:
+        #   - example_audience
   authorizer:
     handler: allow
   mutators:
