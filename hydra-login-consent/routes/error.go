@@ -7,7 +7,18 @@ import (
 )
 
 func (h *Handler) Error(c *gin.Context) {
+	errorTitle, errorTitleExists := c.GetQuery("error")
+	if !errorTitleExists {
+		errorTitle = "An error occurred"
+	}
+
+	errorDescription, errorDescriptionExists := c.GetQuery("error_description")
+	if !errorDescriptionExists {
+		errorDescription = ""
+	}
+
 	c.HTML(http.StatusOK, "error.html", gin.H{
-		"Error": "An error occurred. Please try again.",
+		"ErrorTitle":       errorTitle,
+		"ErrorDescription": errorDescription,
 	})
 }
