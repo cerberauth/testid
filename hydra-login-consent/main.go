@@ -31,6 +31,7 @@ func setupHydraClient() *hydraClient.APIClient {
 func setupRouter(h *routes.Handler) *gin.Engine {
 	r := gin.Default()
 
+	r.GET("/error", h.Error)
 	r.GET("/login", h.Login)
 	r.POST("/login", h.PostLogin)
 	r.GET("/consent", h.Consent)

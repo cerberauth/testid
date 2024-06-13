@@ -10,6 +10,7 @@ urls:
   login: https://testid.cerberauth.com/login
   # registration: https://testid.cerberauth.com/login
   logout: https://testid.cerberauth.com/logout
+  error: https://testid.cerberauth.com/error
 
 secrets:
   system:

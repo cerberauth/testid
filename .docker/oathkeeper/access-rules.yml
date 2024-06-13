@@ -22,7 +22,7 @@
     preserve_host: true
     url: "http://hydra-login-consent:8080"
   match:
-    url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{login,consent,logout}>"
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{login,consent,logout,error}>"
     methods:
       - GET
       - POST
