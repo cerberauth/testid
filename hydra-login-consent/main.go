@@ -6,7 +6,7 @@ import (
 
 	"github.com/cerberauth/testid/hydra-login-consent/routes"
 	"github.com/gin-gonic/gin"
-	hydraClient "github.com/ory/hydra-client-go"
+	hydraClient "github.com/ory/hydra-client-go/v2"
 )
 
 func setupHydraClient() *hydraClient.APIClient {
