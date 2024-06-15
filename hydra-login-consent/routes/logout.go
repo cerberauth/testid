@@ -15,7 +15,7 @@ func (h *Handler) Logout(c *gin.Context) {
 		return
 	}
 
-	acceptResp, r, err := h.hydraApi.AdminApi.AcceptLogoutRequest(c).LogoutChallenge(challenge).Execute()
+	acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2LogoutRequest(c).LogoutChallenge(challenge).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AcceptLogoutRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

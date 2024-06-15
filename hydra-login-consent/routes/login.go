@@ -9,11 +9,11 @@ import (
 	"encoding/hex"
 
 	"github.com/gin-gonic/gin"
-	hydraClient "github.com/ory/hydra-client-go"
+	hydraClient "github.com/ory/hydra-client-go/v2"
 )
 
-func newAcceptLoginRequest(subject string) *hydraClient.AcceptLoginRequest {
-	acceptLoginRequest := hydraClient.NewAcceptLoginRequest(subject)
+func newAcceptLoginRequest(subject string) *hydraClient.AcceptOAuth2LoginRequest {
+	acceptLoginRequest := hydraClient.NewAcceptOAuth2LoginRequest(subject)
 	acceptLoginRequest.SetRemember(true)
 	acceptLoginRequest.SetRememberFor(3600 * 12)
 	return acceptLoginRequest
@@ -26,7 +26,7 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	loginRequest, r, err := h.hydraApi.AdminApi.GetLoginRequest(c).LoginChallenge(challenge).Execute()
+	loginRequest, r, err := h.hydraApi.OAuth2API.GetOAuth2LoginRequest(c).LoginChallenge(challenge).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.GetLoginRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -39,7 +39,7 @@ func (h *Handler) Login(c *gin.Context) {
 		fmt.Printf("Accepting login request because it was skipped\n")
 
 		acceptLoginRequest := newAcceptLoginRequest(loginRequest.GetSubject())
-		acceptResp, r, err := h.hydraApi.AdminApi.AcceptLoginRequest(c).LoginChallenge(challenge).AcceptLoginRequest(*acceptLoginRequest).Execute()
+		acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2LoginRequest(c).LoginChallenge(challenge).AcceptOAuth2LoginRequest(*acceptLoginRequest).Execute()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AcceptLoginRequest``: %v\n", err)
 			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -82,7 +82,7 @@ func (h *Handler) PostLogin(c *gin.Context) {
 	acceptLoginRequest.SetContext(map[string]interface{}{
 		"email": form.Email,
 	})
-	acceptResp, r, err := h.hydraApi.AdminApi.AcceptLoginRequest(c).LoginChallenge(form.Challenge).AcceptLoginRequest(*acceptLoginRequest).Execute()
+	acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2LoginRequest(c).LoginChallenge(form.Challenge).AcceptOAuth2LoginRequest(*acceptLoginRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AcceptLoginRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -6,11 +6,11 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	hydraClient "github.com/ory/hydra-client-go"
+	hydraClient "github.com/ory/hydra-client-go/v2"
 )
 
-func newAcceptConsentRequest(consentRequest *hydraClient.ConsentRequest) *hydraClient.AcceptConsentRequest {
-	acceptConsentRequest := hydraClient.NewAcceptConsentRequest()
+func newAcceptConsentRequest(consentRequest *hydraClient.OAuth2ConsentRequest) *hydraClient.AcceptOAuth2ConsentRequest {
+	acceptConsentRequest := hydraClient.NewAcceptOAuth2ConsentRequest()
 	acceptConsentRequest.SetRemember(true)
 	acceptConsentRequest.SetRememberFor(3600 * 12)
 	acceptConsentRequest.SetGrantScope(consentRequest.GetRequestedScope())
@@ -25,7 +25,7 @@ func (h *Handler) Consent(c *gin.Context) {
 		return
 	}
 
-	consentRequest, r, err := h.hydraApi.AdminApi.GetConsentRequest(c).ConsentChallenge(challenge).Execute()
+	consentRequest, r, err := h.hydraApi.OAuth2API.GetOAuth2ConsentRequest(c).ConsentChallenge(challenge).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OAuth2Api.GetConsentRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -38,7 +38,7 @@ func (h *Handler) Consent(c *gin.Context) {
 		fmt.Printf("Accepting consent request because it was skipped\n")
 
 		acceptConsentRequest := newAcceptConsentRequest(consentRequest)
-		acceptResp, r, err := h.hydraApi.AdminApi.AcceptConsentRequest(c).ConsentChallenge(challenge).AcceptConsentRequest(*acceptConsentRequest).Execute()
+		acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2ConsentRequest(c).ConsentChallenge(challenge).AcceptOAuth2ConsentRequest(*acceptConsentRequest).Execute()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AcceptConsentRequest``: %v\n", err)
 			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -86,7 +86,7 @@ func (h *Handler) PostConsent(c *gin.Context) {
 		return
 	}
 
-	consentRequest, r, err := h.hydraApi.AdminApi.GetConsentRequest(c).ConsentChallenge(form.Challenge).Execute()
+	consentRequest, r, err := h.hydraApi.OAuth2API.GetOAuth2ConsentRequest(c).ConsentChallenge(form.Challenge).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OAuth2Api.GetConsentRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -96,7 +96,7 @@ func (h *Handler) PostConsent(c *gin.Context) {
 	}
 
 	acceptConsentRequest := newAcceptConsentRequest(consentRequest)
-	acceptResp, r, err := h.hydraApi.AdminApi.AcceptConsentRequest(c).ConsentChallenge(form.Challenge).AcceptConsentRequest(*acceptConsentRequest).Execute()
+	acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2ConsentRequest(c).ConsentChallenge(form.Challenge).AcceptOAuth2ConsentRequest(*acceptConsentRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AcceptConsentRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
