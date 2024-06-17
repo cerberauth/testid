@@ -17,6 +17,8 @@ services:
   hydra-admin:
     image: oryd/hydra:v2.2
     command: serve admin -c /etc/config/hydra/hydra.yml --dev
+    ports:
+      - 4445:4445
     volumes:
       - .docker/hydra:/etc/config/hydra:ro
     environment:
