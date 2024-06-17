@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"crypto/sha256"
 	"encoding/hex"
@@ -17,6 +18,19 @@ func newAcceptLoginRequest(subject string) *hydraClient.AcceptOAuth2LoginRequest
 	acceptLoginRequest.SetRemember(true)
 	acceptLoginRequest.SetRememberFor(3600 * 12)
 	return acceptLoginRequest
+}
+
+func extractNameFromEmail(email string) (string, string, string) {
+	// Assuming email format is "name@example.com"
+	atIndex := strings.Index(email, "@")
+	if atIndex == -1 {
+		return "", "", ""
+	}
+	name := email[:atIndex]
+	parts := strings.Split(name, ".")
+	givenName := parts[0]
+	familyName := parts[1]
+	return givenName + " " + familyName, givenName, familyName
 }
 
 func (h *Handler) Login(c *gin.Context) {
@@ -57,14 +71,19 @@ func (h *Handler) Login(c *gin.Context) {
 		loginHint = *loginRequest.GetOidcContext().LoginHint
 	}
 
+	// Extract name from email
+	name, _, _ := extractNameFromEmail(loginHint)
+
 	c.HTML(http.StatusOK, "login.html", gin.H{
 		"Challenge": challenge,
 		"LoginHint": loginHint,
+		"Name":      name,
 	})
 }
 
 type PostLoginForm struct {
 	Challenge string `form:"challenge" binding:"required"`
+	Name      string `form:"name" binding:"required"`
 	Email     string `form:"email" binding:"required"`
 }
 
@@ -80,7 +99,9 @@ func (h *Handler) PostLogin(c *gin.Context) {
 
 	acceptLoginRequest := newAcceptLoginRequest(subject)
 	acceptLoginRequest.SetContext(map[string]interface{}{
-		"email": form.Email,
+		"name":           form.Name,
+		"email":          form.Email,
+		"email_verified": true,
 	})
 	acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2LoginRequest(c).LoginChallenge(form.Challenge).AcceptOAuth2LoginRequest(*acceptLoginRequest).Execute()
 	if err != nil {
