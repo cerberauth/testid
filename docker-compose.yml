@@ -1,7 +1,7 @@
 services:
   hydra:
     image: oryd/hydra:v2.2
-    command: serve public -c /etc/config/hydra/hydra.yml --dev --sqa-opt-out
+    command: serve public -c /etc/config/hydra/hydra.yml --dev
     volumes:
       - .docker/hydra:/etc/config/hydra:ro
     environment:
@@ -16,7 +16,7 @@ services:
 
   hydra-admin:
     image: oryd/hydra:v2.2
-    command: serve admin -c /etc/config/hydra/hydra.yml --dev --sqa-opt-out
+    command: serve admin -c /etc/config/hydra/hydra.yml --dev
     volumes:
       - .docker/hydra:/etc/config/hydra:ro
     environment:
@@ -65,7 +65,7 @@ services:
     ports:
       - 4455:4455
     command:
-      serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml" --sqa-opt-out
+      serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
     restart: on-failure
     volumes:
       - .docker/oathkeeper:/etc/config/oathkeeper:ro
