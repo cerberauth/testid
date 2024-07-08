@@ -5,6 +5,7 @@
   match:
     url: "<{https,http}>://testid.cerberauth.<{com,local}>/<{oauth2/{auth,token,revoke,sessions/**},userinfo,fallbacks/error,health/{alive,ready},.well-known/**}>"
     methods:
+      - OPTIONS
       - GET
       - POST
       - PUT
@@ -12,6 +13,47 @@
       - PATCH
   authenticators:
     - handler: noop
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: "ory:hydra:admin:cors"
+  upstream:
+    strip_path: "/adminCUNoDPxj8m"
+    preserve_host: true
+    url: "http://hydra-admin:4445"
+  match:
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/adminCUNoDPxj8m/<{admin/**}>"
+    methods:
+      - OPTIONS
+  authenticators:
+    - handler: noop
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: "ory:hydra:admin"
+  upstream:
+    strip_path: "/adminCUNoDPxj8m"
+    preserve_host: true
+    url: "http://hydra-admin:4445"
+  match:
+    url: "<{https,http}>://testid.cerberauth.<{com,local}>/adminCUNoDPxj8m/<{admin/**}>"
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+  authenticators:
+    - handler: jwt
+      config:
+        scope_strategy: exact
+        required_scope:
+          - oauth2-client:read
+          - oauth2-client:write
   authorizer:
     handler: allow
   mutators:
@@ -60,13 +102,11 @@
       - PUT
       - DELETE
   authenticators:
-    - handler: noop
-    # - handler: oauth2_introspection
-    #   config:
-    #     required_scope:
-    #       - dynamic-client:write
-    #     # target_audience:
-    #     #   - example_audience
+    - handler: jwt
+      config:
+        scope_strategy: exact
+        required_scope:
+          - dynamic-client:write
   authorizer:
     handler: allow
   mutators:
@@ -81,13 +121,11 @@
     methods:
       - POST
   authenticators:
-    - handler: noop
-    # - handler: oauth2_introspection
-    #   config:
-    #     required_scope:
-    #       - dynamic-client:write
-    #     # target_audience:
-    #     #   - example_audience
+    - handler: jwt
+      config:
+        scope_strategy: exact
+        required_scope:
+          - dynamic-client:write
   authorizer:
     handler: allow
   mutators:

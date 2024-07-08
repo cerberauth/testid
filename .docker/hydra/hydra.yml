@@ -6,18 +6,31 @@ serve:
     cors:
       enabled: true
       allowed_origins:
+        - https://taco.cerberauth.com
+        - http://localhost:3000
+      allowed_methods:
+        - POST
+        - GET
+        - PUT
+        - PATCH
+        - DELETE
+      allowed_headers:
+        - Authorization
+      exposed_headers:
+        - Content-Type
+
+  public:
+    cors:
+      enabled: true
+      allowed_origins:
         - "*"
       allowed_methods:
         - POST
-        - PUT
-        - DELETE
         - GET
       allowed_headers:
         - Authorization
-        - Content-Type
       exposed_headers:
         - Content-Type
-      allow_credentials: true
 
 urls:
   self:

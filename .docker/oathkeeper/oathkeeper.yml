@@ -1,22 +1,6 @@
 log:
   format: json
 
-serve:
-  proxy:
-    cors:
-      enabled: true
-      allowed_origins:
-        - "*"
-      allowed_methods:
-        - POST
-        - GET
-      allowed_headers:
-        - Authorization
-        - Content-Type
-      exposed_headers:
-        - Content-Type
-      allow_credentials: true
-
 errors:
   fallback:
     - json
@@ -32,20 +16,14 @@ access_rules:
     - file:///etc/config/oathkeeper/access-rules.yml
 
 authenticators:
-  oauth2_introspection:
+  jwt:
     enabled: true
-
     config:
-      introspection_url: https://oauth.cerberauth.com/oauth2/introspection
-      scope_strategy: exact
       trusted_issuers:
-        - https://oauth.cerberauth.com/
-      retry:
-        max_delay: 300ms
-        give_up_after: 2s
-      cache:
-        enabled: true
-        ttl: 60s
+        - "https://oauth.cerberauth.com"
+      jwks_urls:
+        - "https://oauth.cerberauth.com/.well-known/jwks.json"
+      allowed_algorithms: ["RS256"]
   noop:
     enabled: true
 
