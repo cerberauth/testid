@@ -2,6 +2,23 @@ serve:
   cookies:
     same_site_mode: Lax
 
+  admin:
+    cors:
+      enabled: true
+      allowed_origins:
+        - "*"
+      allowed_methods:
+        - POST
+        - PUT
+        - DELETE
+        - GET
+      allowed_headers:
+        - Authorization
+        - Content-Type
+      exposed_headers:
+        - Content-Type
+      allow_credentials: true
+
 urls:
   self:
     issuer: https://testid.cerberauth.com
