@@ -5,21 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <title>Testid - HomePage</title>
+    <title>TestID - OpenID Connect Provider for testing and development environments</title>
 </head>
 
-<body class="bg-white transition-opacity duration-150 !opacity-100">
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-            <h1 class="text-2xl font-bold text-center text-gray-900">Testid</h1>
-            <p class="text-sm text-center text-gray-500">This is an OpenID Connect Provider existing for testing
-                purposes only.</p>
-            <a href="https://nacho.cerberauth.com"
-                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 h-10 px-4 py-2 w-full">
+<body class="bg-slate-100 min-h-screen">
+    <main class="flex flex-col items-center justify-center h-4/5 px-4 lg:py-32 md:py-16 sm:py-8">
+        <div class="text-center space-y-8">
+            <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-5xl xl:max-w-[43.5rem]">
+                TestID
+            </h1>
+            <p class="mt-4 max-w-lg text-lg text-slate-700">TestID is an OpenID Connect Provider existing for testing
+                and
+                development environments.</p>
+
+            <a href="https://nacho.cerberauth.com?utm_source=testid"
+                class="inline-flex rounded-lg text-sm font-semibold py-3 px-4 bg-slate-900 text-white hover:bg-slate-700">
                 Create an OpenID Connect Client
             </a>
         </div>
-    </div>
+
+        <div class="mt-12 text-left space-y-4">
+            <h2 class="text-lg font-semibold text-slate-900">OAuth 2.0 Grant Types</h2>
+            <ul class="list-disc text-slate-700">
+                <li>client_credentials</li>
+                <li>authorization_code (with PKCE)</li>
+                <li>refresh_token</li>
+                <li>implicit</li>
+                <li>urn:ietf:params:oauth:grant-type:jwt-bearer</li>
+            </ul>
+        </div>
+
+        <div class="mt-12 text-left space-y-4">
+            <h2 class="text-lg font-semibold text-slate-900">Token Endpoint Authentication Methods</h2>
+            <ul class="list-disc text-slate-700">
+                <li>none</li>
+                <li>client_secret_post</li>
+                <li>client_secret_basic</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="text-center p-4 space-y-4">
+        <p class="text-gray-500">TestID is powered with <a class="text-indigo-600"
+                href="https://github.com/ory/hydra">Ory Hydra</a>, a great Open Source OpenID Certified™ OpenID Connect
+            and OAuth
+            Provider developed by <a class="text-indigo-600" href="https://www.ory.sh/">Ory</a>.</p>
+        <p class="text-sm text-gray-500">Proudly part of <a class="text-indigo-600"
+                href="https://www.cerberauth.com?utm_source=testid">CerberAuth</a> community. CerberAuth is not affiliated in any way with
+            Ory Corp.</p>
+    </footer>
 </body>
 
 </html>

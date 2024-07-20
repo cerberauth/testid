@@ -14,7 +14,6 @@ func setupHydraClient() *hydraClient.APIClient {
 	if hydraAdminURL == "" {
 		hydraAdminURL = "http://localhost:4445"
 	}
-	fmt.Printf("Hydra Admin URL: %s\n", hydraAdminURL)
 
 	configuration := hydraClient.NewConfiguration()
 	configuration.Debug = hydraAdminURL == "http://localhost:4445"
