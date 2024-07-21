@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /consent
+Disallow: /error
+Disallow: /login

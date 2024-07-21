@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/cerberauth/testid/hydra-login-consent/routes"
 	"github.com/gin-gonic/gin"
@@ -27,8 +28,22 @@ func setupHydraClient() *hydraClient.APIClient {
 	return hydraAdminClient
 }
 
+func cacheMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if strings.HasPrefix(c.Request.URL.Path, "/css/") {
+			c.Header("Cache-Control", "public, max-age=86400, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400")
+		} else if c.Request.URL.Path == "/" {
+			c.Header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400")
+		} else {
+			c.Header("Cache-Control", "no-store, max-age=0")
+		}
+		c.Next()
+	}
+}
+
 func setupRouter(h *routes.Handler) *gin.Engine {
 	r := gin.Default()
+	r.Use(cacheMiddleware())
 
 	r.GET("/", h.Index)
 	r.GET("/error", h.Error)
@@ -38,13 +53,17 @@ func setupRouter(h *routes.Handler) *gin.Engine {
 	r.POST("/consent", h.PostConsent)
 	r.GET("/logout", h.Logout)
 
+	r.Static("/css", "./static/css")
+	r.StaticFile("/favicon.ico", "./static/favicon.ico")
+	r.StaticFile("/robots.txt", "./static/robots.txt")
+
 	return r
 }
 
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Default port
+		port = "8080"
 	}
 
 	hydraAdminClient := setupHydraClient()
