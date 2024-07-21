@@ -5,10 +5,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-COPY . .
+COPY . ./
 
-ENV NODE_ENV=production
-RUN npm run build
+RUN NODE_ENV=production npm run build
 
 FROM golang:1.22 AS builder
 

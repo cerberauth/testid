@@ -24,3 +24,10 @@ services:
       - .env
     ports:
       - 80:4455
+
+  hydra-login-consent:
+      env_file:
+        - .env.local
+        - .env
+      ports:
+        - 8080:8080
