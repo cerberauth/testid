@@ -1,6 +1,10 @@
 # TestID
 
-TestID - OpenID Connect Provider for testing and development environments
+TestID - OpenID Connect Provider for testing and development environments.
+
+This project is a simple OpenID Connect Provider that can be used for testing and development environments. It provides a simple way to test OAuth 2.0 and OpenID Connect flows. It is not intended for production use!
+
+Check out [TestID](https://testid.cerberauth.com/).
 
 ## Development
 
