@@ -1,6 +1,6 @@
-# testid
+# TestID
 
-Test OpenID Connect Provider
+TestID - OpenID Connect Provider for testing and development environments
 
 ## Development
 
@@ -11,6 +11,8 @@ docker compose -p cerberauth-testid -f docker-compose.yml -f docker-compose.dev.
 ### OAuth 2.0 Clients
 
 ### Authorization Code Flow
+
+Create a client for the authorization code flow:
 
 ```shell
 hydra create client \
@@ -32,15 +34,12 @@ code_access_token="{set to access token from output}"
 hydra introspect token $code_access_token
 ```
 
-### SPA
+## Thanks
 
-```shell
-hydra create client \
-    --endpoint http://localhost:4445 \
-    --grant-type authorization_code,refresh_token \
-    --response-type code,id_token \
-    --scope openid,offline,offline_access,profile,email \
-    --token-endpoint-auth-method none \
-    --redirect-uri http://localhost:5173 \
-    --post-logout-callback http://localhost:5173
-```
+This project used the following open-source projects:
+* [Hydra](https://github.com/ory/hydra) - OpenID Connect and OAuth 2.0 Server
+* [Oathkeeper](https://github.com/ory/oathkeeper) - Identity & Access Proxy
+
+## License
+
+This repository is licensed under the [MIT License](https://github.com/cerberauth/testid/blob/main/LICENSE) @ [CerberAuth](https://www.cerberauth.com/). You are free to use, modify, and distribute the contents of this repository.
