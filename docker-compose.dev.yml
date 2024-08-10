@@ -11,7 +11,7 @@ services:
       - .env
 
   hydra-admin:
-    command: serve admin -c /etc/config/hydra/hydra.yml --sqa-opt-out
+    command: serve admin -c /etc/config/hydra/hydra.yml --sqa-opt-out --dev
     ports:
       - 4445:4445
     env_file:
