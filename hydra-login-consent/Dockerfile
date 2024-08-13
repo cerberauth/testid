@@ -9,7 +9,7 @@ COPY . ./
 
 RUN NODE_ENV=production npm run build
 
-FROM golang:1.22 AS builder
+FROM golang:1.23 AS builder
 
 WORKDIR /app
 
