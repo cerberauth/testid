@@ -15,6 +15,25 @@ func newAcceptConsentRequest(consentRequest *hydraClient.OAuth2ConsentRequest) *
 	acceptConsentRequest.SetRememberFor(3600 * 12)
 	acceptConsentRequest.SetGrantScope(consentRequest.GetRequestedScope())
 	acceptConsentRequest.SetGrantAccessTokenAudience(consentRequest.GetRequestedAccessTokenAudience())
+
+	consentRequestContext, ok := consentRequest.GetContextOk()
+	if ok {
+		consentRequestContextMap := (*consentRequestContext).(map[string]interface{})
+		name := consentRequestContextMap["name"].(string)
+		email := consentRequestContextMap["email"].(string)
+		tokenClaims := map[string]interface{}{
+			"preferred_username": email,
+			"email":              email,
+			"email_verified":     true,
+			"name":               name,
+		}
+
+		session := hydraClient.NewAcceptOAuth2ConsentRequestSession()
+		session.SetAccessToken(tokenClaims)
+		session.SetIdToken(tokenClaims)
+		acceptConsentRequest.SetSession(*session)
+	}
+
 	return acceptConsentRequest
 }
 
@@ -35,8 +54,6 @@ func (h *Handler) Consent(c *gin.Context) {
 	}
 
 	if consentRequest.GetSkip() {
-		fmt.Printf("Accepting consent request because it was skipped\n")
-
 		acceptConsentRequest := newAcceptConsentRequest(consentRequest)
 		acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2ConsentRequest(c).ConsentChallenge(challenge).AcceptOAuth2ConsentRequest(*acceptConsentRequest).Execute()
 		if err != nil {
@@ -76,7 +93,6 @@ func (h *Handler) Consent(c *gin.Context) {
 
 type PostConsentForm struct {
 	Challenge string `form:"challenge" binding:"required"`
-	// Scopes    []string `form:"scopes" binding:"required"`
 }
 
 func (h *Handler) PostConsent(c *gin.Context) {
