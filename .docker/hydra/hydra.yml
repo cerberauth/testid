@@ -53,6 +53,7 @@ oauth2:
     - family_name
     - name
     - email
+    - email_verified
   mirror_top_level_claims: false
 
   grant:

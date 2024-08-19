@@ -50,8 +50,6 @@ func (h *Handler) Login(c *gin.Context) {
 	}
 
 	if loginRequest.Skip {
-		fmt.Printf("Accepting login request because it was skipped\n")
-
 		acceptLoginRequest := newAcceptLoginRequest(loginRequest.GetSubject())
 		acceptResp, r, err := h.hydraApi.OAuth2API.AcceptOAuth2LoginRequest(c).LoginChallenge(challenge).AcceptOAuth2LoginRequest(*acceptLoginRequest).Execute()
 		if err != nil {
