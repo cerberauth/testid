@@ -7,7 +7,8 @@
     <link href="/css/main.css" rel="stylesheet">
 
     <link href="https://a.cerberauth.com" rel="preconnect" crossorigin />
-    <script defer data-domain="testid.cerberauth.com" src="https://a.cerberauth.com/js/script.outbound-links.js"></script>
+    <script defer data-domain="testid.cerberauth.com"
+        src="https://a.cerberauth.com/js/script.outbound-links.js"></script>
 
     <title>Error Page</title>
 </head>
@@ -16,7 +17,13 @@
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
         <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
             <h1 class="text-2xl font-bold text-center text-gray-900">Error ({{ .ErrorTitle }})</h1>
-            <p class="text-sm text-center text-gray-600">{{ .ErrorDescription }}</p>
+            {{ if .ErrorDescription }}<p class="text-sm text-center text-gray-600">{{ .ErrorDescription }}</p>{{ end }}
+
+            <div class="flex flex-col space-y-4">
+                <p class="text-sm text-center text-gray-600">Please check if your client is expired. If it is expired,
+                    you can <a href="https://nacho.cerberauth.com/client/create?utm_source=testid&utm_campaign=error"
+                        class="underline text-indigo-600">create a new client for free</a>.</p>
+            </div>
             <!-- <div class="flex flex-col space-y-4">
                 <a href="{{ .RedirectUri }}"
                     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 h-10 px-4 py-2 w-full">
